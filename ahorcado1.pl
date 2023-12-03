@@ -22,23 +22,22 @@
 
 set_solution(X) :- asserta(solution(X)).
 
-set_game_word(X) :- atom_string(X, S), asserta(game_word(S)).
+palabra_a_adivinar(X) :- atom_string(X, S), asserta(game_word(S)).
 
 set_fail_count(X) :- asserta(fail_count(X)).
 
 set_known_chars(X) :- asserta(known_chars(X)).
 
 % dibuja el ahorcado basado en el valor de intentos fallidos.
-gallows :-
+dibujos :-
    fail_count(X),
-   ((X is 1, draw_gallows1);
-   (X is 2, draw_gallows2);
-   (X is 3, draw_gallows3);
-   (X is 4, draw_gallows4);
-   (X is 5, draw_gallows5);
-   (X is 6, draw_gallows6);
-   (X is 7, draw_gallows7);
-   (X is 8, draw_gallows8);
+   ((X is 1, dibuja_monito1);
+   (X is 2, dibuja_monito2);
+   (X is 3, dibuja_monito3);
+   (X is 4, dibuja_monito4);
+   (X is 5, dibuja_monito5);
+   (X is 6, dibuja_monito6);
+   (X is 7, dibuja_monito7);
    fail).
 
 %--------------------------------------------------------------------
@@ -106,7 +105,7 @@ right_word(X) :-
 
 % incrementa intentos fallidos en 1, muestra info y dibuja ahorcado
 wrong :-
-   fail_count(Y), succ(Y, Z), set_fail_count(Z), wrong_guess_text, gallows.
+   fail_count(Y), succ(Y, Z), set_fail_count(Z), wrong_guess_text, dibujos.
 
 % si x es parte de game word, lo agrega a caracteres conocidos
 % y muestra info.
@@ -118,7 +117,7 @@ char(X) :-
        ; wrong
    ).
 
-% branhes to right_word, if x is the game word.
+% branches to right_word, if x is the game word.
 % otherwise branches to wrong.
 word(X) :- (atom_string(X, S), right_word(S)) ; wrong.
 
@@ -132,26 +131,26 @@ play :-
 %                              TEXTS
 % ------------------------------------------------------------------
 
-% displays intoduction texts
+% muestra textos de introducción
 play_text :-
    write_ln('**********************************'),
    write_ln('   Juego del ahorcado!   '),
    write_ln('**********************************'),
-   write_ln('First, write set_game_word(Word). to set the word for the game.'),
+   write_ln('Primero, escribe palabra_a_adivinar(palabra). para que el jugador2 adivine.'),
    write_ln('').
 
-% displays instructions
+% muestra instrucciones
 help :-
     write_ln('*******************'),
     write_ln('   Como jugar:    '),
     write_ln('*******************'),
-    write_ln('Intruduce un caracter. Para adivinar usa una letra minuscula una a la vez.'),
-    write_ln('Introduce una palabra. Para adivinar usa minusculas.'),
-    write_ln('Tienes 7 intentos fallidos antes de perder la partida.'),
+    write_ln('Introduce char(letra). para adivinar una letra. usa una letra minuscula, una a la vez.'),
+    write_ln('Introduce word(palabra). para adivinar la palabra. Usa minusculas.'),
+    write_ln('Tienes 6 intentos fallidos antes de perder la partida.'),
     write_ln('*****************************************************'),
     write_ln('').
 
-% displays info about wrong guess
+% muestra información sobre intento incorrecto
 wrong_guess_text :-
    write_ln('*****************************************************'),
    write_ln('Incorrecto:('),
@@ -159,17 +158,17 @@ wrong_guess_text :-
    write_ln('*****************************************************'),
    write_ln('').
 
-% displays end texts when user wins
+% muestra los textos finales cuando el usuario gana
 right_word_text :-
    game_word(X),
    write_ln('*****************************************************'),
-   writef(X), write_ln(' Respuesta correcta, has ganado el juego! :D'),
-   write_ln('Escribe (play.) para jugar de nuevo
+   writef(X), write_ln(' es la respuesta correcta, has ganado el juego ^-^'),
+   write_ln('Escribe play. para jugar de nuevo
    .'),
    write_ln('*****************************************************'),
    write_ln('').
 
-% displays info, builds partial solution and shows it to user
+% muestra información, crea una solución parcial y se la muestra al usuario
 right_char_text :-
    build_solution, solution(X), string_codes(S, X),
    write_ln('*****************************************************'),
@@ -184,34 +183,7 @@ right_char_text :-
 %                              GRAPHICS
 % ------------------------------------------------------------------
 
-draw_gallows1 :-
-   write_ln('        '),
-   write_ln('        '),
-   write_ln('        '),
-   write_ln('        '),
-   write_ln('        '),
-   write_ln('        '),
-   write_ln('        '),
-   write_ln('   -----').
-draw_gallows2 :-
-   write_ln('        '),
-   write_ln('     |  '),
-   write_ln('     |  '),
-   write_ln('     |  '),
-   write_ln('     |  '),
-   write_ln('     |  '),
-   write_ln('     |  '),
-   write_ln('   -----').
-draw_gallows3 :-
-   write_ln('        '),
-   write_ln('  ---|  '),
-   write_ln('     |  '),
-   write_ln('     |  '),
-   write_ln('     |  '),
-   write_ln('     |  '),
-   write_ln('     |  '),
-   write_ln('   -----').
-draw_gallows4 :-
+dibuja_monito1 :-
    write_ln('        '),
    write_ln('  ---|  '),
    write_ln('  |  |  '),
@@ -220,7 +192,7 @@ draw_gallows4 :-
    write_ln('     |  '),
    write_ln('     |  '),
    write_ln('   -----').
-draw_gallows5 :-
+dibuja_monito2 :-
    write_ln('        '),
    write_ln('  ---|  '),
    write_ln('  |  |  '),
@@ -229,7 +201,7 @@ draw_gallows5 :-
    write_ln('     |  '),
    write_ln('     |  '),
    write_ln('   -----').
-draw_gallows6 :-
+dibuja_monito3 :-
    write_ln('        '),
    write_ln('  ---|  '),
    write_ln('  |  |  '),
@@ -238,7 +210,16 @@ draw_gallows6 :-
    write_ln('     |  '),
    write_ln('     |  '),
    write_ln('   -----').
-draw_gallows7 :-
+dibuja_monito4 :-
+   write_ln('        '),
+   write_ln('  ---|  '),
+   write_ln('  |  |  '),
+   write_ln(' _O  |  '),
+   write_ln('  |  |  '),
+   write_ln('     |  '),
+   write_ln('     |  '),
+   write_ln('   -----').
+dibuja_monito5 :-
    write_ln('        '),
    write_ln('  ---|  '),
    write_ln('  |  |  '),
@@ -247,7 +228,16 @@ draw_gallows7 :-
    write_ln('     |  '),
    write_ln('     |  '),
    write_ln('   -----').
-draw_gallows8 :-
+dibuja_monito6 :-
+   write_ln('        '),
+   write_ln('  ---|  '),
+   write_ln('  |  |  '),
+   write_ln(' _O_ |  '),
+   write_ln('  |  |  '),
+   write_ln(' /   |  '),
+   write_ln('     |  '),
+   write_ln('   -----').
+dibuja_monito7 :-
    write_ln('        '),
    write_ln('  ---|  '),
    write_ln('  |  |  '),
@@ -261,10 +251,3 @@ draw_gallows8 :-
    write_ln('Escribe play. para jugar de nuevo.'),
    write_ln('*****************************************************'),
    write_ln('').
-
-
-
-
-
-
-
