@@ -143,19 +143,19 @@ play_text :-
 % displays instructions
 help :-
     write_ln('*******************'),
-    write_ln('   How to play:    '),
+    write_ln('   Como jugar:    '),
     write_ln('*******************'),
-    write_ln('Enter char(Character). to guess a character. Use lower caps and guess one character at a time.'),
-    write_ln('Enter word(Word). to guess a word. Use lower caps.'),
-    write_ln('You can guess wrong seven times before losing.'),
+    write_ln('Intruduce un caracter. Para adivinar usa una letra minuscula una a la vez.'),
+    write_ln('Introduce una palabra. Para adivinar usa minusculas.'),
+    write_ln('Tienes 7 intentos fallidos antes de perder la partida.'),
     write_ln('*****************************************************'),
     write_ln('').
 
 % displays info about wrong guess
 wrong_guess_text :-
    write_ln('*****************************************************'),
-   write_ln('You guessed wrong :('),
-   write_ln('Try another word or character.'),
+   write_ln('Incorrecto:('),
+   write_ln('Intenta otra letra o palabra.'),
    write_ln('*****************************************************'),
    write_ln('').
 
@@ -163,8 +163,9 @@ wrong_guess_text :-
 right_word_text :-
    game_word(X),
    write_ln('*****************************************************'),
-   writef(X), write_ln(' is the correct answer, you have won the game! :D'),
-   write_ln('Write (play.) to play again.'),
+   writef(X), write_ln(' Respuesta correcta, has ganado el juego! :D'),
+   write_ln('Escribe (play.) para jugar de nuevo
+   .'),
    write_ln('*****************************************************'),
    write_ln('').
 
@@ -172,9 +173,9 @@ right_word_text :-
 right_char_text :-
    build_solution, solution(X), string_codes(S, X),
    write_ln('*****************************************************'),
-   write_ln('You guessed right :)'),
-   write('Here is what you know so far: '), writef(S), write_ln(''),
-   write_ln('Try another word or character.'),
+   write_ln('Has acertado :)'),
+   write('Esto es lo que has adivinado hasta ahora: '), writef(S), write_ln(''),
+   write_ln('Prueba con otra letra o palabra.'),
    write_ln('*****************************************************'),
    write_ln('').
 
@@ -256,8 +257,8 @@ draw_gallows8 :-
    write_ln('     |  '),
    write_ln('   -----'),
    write_ln('*****************************************************'),
-   write_ln('You have lost the game!'),
-   write_ln('Write play. to play again.'),
+   write_ln('Has perdido!'),
+   write_ln('Escribe play. para jugar de nuevo.'),
    write_ln('*****************************************************'),
    write_ln('').
 
